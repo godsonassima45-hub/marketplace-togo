@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - MarketPlace TG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><i class="fas fa-store"></i> MarketPlace TG - Admin</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="#overview">Aperçu</a></li>
+                        <li><a href="#users">Utilisateurs</a></li>
+                        <li><a href="#products">Produits</a></li>
+                        <li><a href="#orders">Commandes</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-menu">
+                        <span>Administrateur</span>
+                        <button class="btn btn-outline" id="logoutBtn">Déconnexion</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Dashboard -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-layout">
+                <!-- Sidebar -->
+                <aside class="dashboard-sidebar">
+                    <nav class="sidebar-nav">
+                        <ul>
+                            <li><a href="#overview" class="nav-link active" data-section="overview">
+                                <i class="fas fa-chart-line"></i> Aperçu
+                            </a></li>
+                            <li><a href="#users" class="nav-link" data-section="users">
+                                <i class="fas fa-users"></i> Utilisateurs
+                            </a></li>
+                            <li><a href="#sellers" class="nav-link" data-section="sellers">
+                                <i class="fas fa-store"></i> Vendeurs
+                            </a></li>
+                            <li><a href="#products" class="nav-link" data-section="products">
+                                <i class="fas fa-box"></i> Produits
+                            </a></li>
+                            <li><a href="#orders" class="nav-link" data-section="orders">
+                                <i class="fas fa-shopping-bag"></i> Commandes
+                            </a></li>
+                            <li><a href="#commissions" class="nav-link" data-section="commissions">
+                                <i class="fas fa-percentage"></i> Commissions
+                            </a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="dashboard-main">
+                    <!-- Overview Section -->
+                    <section class="dashboard-section-content" id="overview-section">
+                        <h2>Tableau de bord administrateur</h2>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalUsers">0</h3>
+                                    <p>Utilisateurs totaux</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalSellers">0</h3>
+                                    <p>Vendeurs actifs</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalProducts">0</h3>
+                                    <p>Produits totaux</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalOrders">0</h3>
+                                    <p>Commandes totales</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalRevenue">0 FCFA</h3>
+                                    <p>Revenu total</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalCommissions">0 FCFA</h3>
+                                    <p>Commissions totales</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-charts">
+                            <div class="chart-card">
+                                <h3>Activité récente</h3>
+                                <div id="recentActivity">
+                                    <p>Chargement de l'activité...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Users Section -->
+                    <section class="dashboard-section-content" id="users-section" style="display: none;">
+                        <h2>Gestion des utilisateurs</h2>
+                        
+                        <div class="table-controls">
+                            <div class="search-box">
+                                <input type="text" id="userSearch" placeholder="Rechercher un utilisateur...">
+                                <button class="btn btn-primary" id="searchUserBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="filter-controls">
+                                <select id="userTypeFilter">
+                                    <option value="all">Tous les types</option>
+                                    <option value="buyer">Acheteurs</option>
+                                    <option value="seller">Vendeurs</option>
+                                    <option value="admin">Administrateurs</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="users-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Téléphone</th>
+                                        <th>Type</th>
+                                        <th>Date d'inscription</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTable">
+                                    <!-- Users will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Sellers Section -->
+                    <section class="dashboard-section-content" id="sellers-section" style="display: none;">
+                        <h2>Gestion des vendeurs</h2>
+                        
+                        <div class="sellers-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Vendeur</th>
+                                        <th>Boutique</th>
+                                        <th>Email</th>
+                                        <th>Téléphone</th>
+                                        <th>Produits</th>
+                                        <th>Ventes</th>
+                                        <th>Note</th>
+                                        <th>Revenu</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sellersTable">
+                                    <!-- Sellers will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Products Section -->
+                    <section class="dashboard-section-content" id="products-section" style="display: none;">
+                        <h2>Gestion des produits</h2>
+                        
+                        <div class="table-controls">
+                            <div class="search-box">
+                                <input type="text" id="productSearch" placeholder="Rechercher un produit...">
+                                <button class="btn btn-primary" id="searchProductBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="filter-controls">
+                                <select id="productStatusFilter">
+                                    <option value="all">Tous les statuts</option>
+                                    <option value="active">Actifs</option>
+                                    <option value="inactive">Inactifs</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="products-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Nom</th>
+                                        <th>Vendeur</th>
+                                        <th>Catégorie</th>
+                                        <th>Prix</th>
+                                        <th>Stock</th>
+                                        <th>Statut</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTable">
+                                    <!-- Products will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Orders Section -->
+                    <section class="dashboard-section-content" id="orders-section" style="display: none;">
+                        <h2>Gestion des commandes</h2>
+                        
+                        <div class="table-controls">
+                            <div class="filter-controls">
+                                <select id="orderStatusFilter">
+                                    <option value="all">Tous les statuts</option>
+                                    <option value="pending">En attente</option>
+                                    <option value="confirmed">Confirmées</option>
+                                    <option value="shipped">Expédiées</option>
+                                    <option value="delivered">Livrées</option>
+                                    <option value="cancelled">Annulées</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="orders-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>N° Commande</th>
+                                        <th>Client</th>
+                                        <th>Produits</th>
+                                        <th>Total</th>
+                                        <th>Méthode paiement</th>
+                                        <th>Date</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable">
+                                    <!-- Orders will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Commissions Section -->
+                    <section class="dashboard-section-content" id="commissions-section" style="display: none;">
+                        <h2>Rapport des commissions</h2>
+                        
+                        <div class="commissions-summary">
+                            <div class="summary-card">
+                                <h3>Commissions totales (10%)</h3>
+                                <p class="amount" id="totalPlatformCommissions">0 FCFA</p>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Ventes totales vendeurs</h3>
+                                <p class="amount" id="totalSellerEarnings">0 FCFA</p>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Volume des ventes</h3>
+                                <p class="amount" id="totalSalesVolume">0 FCFA</p>
+                            </div>
+                        </div>
+                        
+                        <div class="commissions-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Vendeur</th>
+                                        <th>Produit</th>
+                                        <th>Vente totale</th>
+                                        <th>Commission plateforme</th>
+                                        <th>Gain vendeur</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="commissionsTable">
+                                    <!-- Commissions will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

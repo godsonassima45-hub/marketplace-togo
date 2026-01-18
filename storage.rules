@@ -1,0 +1,40 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Images can be read by anyone
+    match /images/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        request.auth.token.email_verified == true;
+    }
+    
+    // Product images - only authenticated users can upload
+    match /products/{userId}/{imageId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        request.auth.uid == userId &&
+        request.auth.token.email_verified == true &&
+        request.resource.size < 5 * 1024 * 1024 && // 5MB max
+        request.resource.contentType.matches('image/.*');
+    }
+    
+    // Profile images - users can only upload their own
+    match /profiles/{userId}/{imageId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        request.auth.uid == userId &&
+        request.auth.token.email_verified == true &&
+        request.resource.size < 2 * 1024 * 1024 && // 2MB max
+        request.resource.contentType.matches('image/.*');
+    }
+    
+    // Fitting room images - temporary storage
+    match /fitting-room/{userId}/{imageId} {
+      allow read, write: if request.auth != null && 
+        request.auth.uid == userId &&
+        request.auth.token.email_verified == true &&
+        request.resource.size < 10 * 1024 * 1024 && // 10MB max
+        request.resource.contentType.matches('image/.*');
+    }
+  }
+}

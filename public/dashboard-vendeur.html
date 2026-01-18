@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord Vendeur - MarketPlace TG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><i class="fas fa-store"></i> MarketPlace TG</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="#products">Mes produits</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-menu">
+                        <span id="sellerName">Vendeur</span>
+                        <button class="btn btn-outline" id="logoutBtn">Déconnexion</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-layout">
+                <!-- Sidebar -->
+                <aside class="dashboard-sidebar">
+                    <nav class="sidebar-nav">
+                        <ul>
+                            <li><a href="#overview" class="nav-link active" data-section="overview">
+                                <i class="fas fa-chart-line"></i> Aperçu
+                            </a></li>
+                            <li><a href="#products" class="nav-link" data-section="products">
+                                <i class="fas fa-box"></i> Mes produits
+                            </a></li>
+                            <li><a href="#add-product" class="nav-link" data-section="add-product">
+                                <i class="fas fa-plus"></i> Ajouter un produit
+                            </a></li>
+                            <li><a href="#orders" class="nav-link" data-section="orders">
+                                <i class="fas fa-shopping-bag"></i> Commandes
+                            </a></li>
+                            <li><a href="#sales" class="nav-link" data-section="sales">
+                                <i class="fas fa-chart-bar"></i> Ventes
+                            </a></li>
+                            <li><a href="#profile" class="nav-link" data-section="profile">
+                                <i class="fas fa-user"></i> Profil
+                            </a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="dashboard-main">
+                    <!-- Overview Section -->
+                    <section class="dashboard-section-content" id="overview-section">
+                        <h2>Aperçu de votre boutique</h2>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalProducts">0</h3>
+                                    <p>Produits</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalOrders">0</h3>
+                                    <p>Commandes</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="totalRevenue">0 FCFA</h3>
+                                    <p>Revenu total</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="netEarnings">0 FCFA</h3>
+                                    <p>Gains nets (90%)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-charts">
+                            <div class="chart-card">
+                                <h3>Ventes récentes</h3>
+                                <div id="recentSalesChart">
+                                    <p>Aucune vente récente</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Products Section -->
+                    <section class="dashboard-section-content" id="products-section" style="display: none;">
+                        <div class="section-header">
+                            <h2>Mes produits</h2>
+                            <button class="btn btn-primary" id="addProductBtn">
+                                <i class="fas fa-plus"></i> Ajouter un produit
+                            </button>
+                        </div>
+                        
+                        <div class="products-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Nom</th>
+                                        <th>Prix</th>
+                                        <th>Stock</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sellerProductsTable">
+                                    <!-- Products will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Add Product Section -->
+                    <section class="dashboard-section-content" id="add-product-section" style="display: none;">
+                        <h2>Ajouter un nouveau produit</h2>
+                        
+                        <form class="product-form" id="addProductForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productName">Nom du produit *</label>
+                                    <input type="text" id="productName" name="productName" required placeholder="Ex: Chemise traditionnelle">
+                                </div>
+                                <div class="form-group">
+                                    <label for="productCategory">Catégorie *</label>
+                                    <select id="productCategory" name="productCategory" required>
+                                        <option value="">Sélectionner une catégorie</option>
+                                        <option value="clothing">Vêtements</option>
+                                        <option value="accessories">Accessoires</option>
+                                        <option value="shoes">Chaussures</option>
+                                        <option value="electronics">Électronique</option>
+                                        <option value="home">Maison</option>
+                                        <option value="beauty">Beauté</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productPrice">Prix (FCFA) *</label>
+                                    <input type="number" id="productPrice" name="productPrice" required placeholder="5000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="productStock">Stock *</label>
+                                    <input type="number" id="productStock" name="productStock" required placeholder="10" min="0">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productDescription">Description *</label>
+                                <textarea id="productDescription" name="productDescription" required placeholder="Décrivez votre produit en détail..." rows="4"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productImage">Image du produit *</label>
+                                <div class="image-upload">
+                                    <input type="file" id="productImage" name="productImage" accept="image/*" required>
+                                    <div class="image-preview" id="imagePreview">
+                                        <i class="fas fa-image"></i>
+                                        <span>Aucune image sélectionnée</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" id="cancelAddProduct">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Ajouter le produit</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Orders Section -->
+                    <section class="dashboard-section-content" id="orders-section" style="display: none;">
+                        <h2>Commandes</h2>
+                        
+                        <div class="orders-filters">
+                            <select id="orderStatus">
+                                <option value="all">Toutes les commandes</option>
+                                <option value="pending">En attente</option>
+                                <option value="confirmed">Confirmées</option>
+                                <option value="shipped">Expédiées</option>
+                                <option value="delivered">Livrées</option>
+                                <option value="cancelled">Annulées</option>
+                            </select>
+                        </div>
+                        
+                        <div class="orders-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>N° Commande</th>
+                                        <th>Client</th>
+                                        <th>Produits</th>
+                                        <th>Total</th>
+                                        <th>Date</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable">
+                                    <!-- Orders will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Sales Section -->
+                    <section class="dashboard-section-content" id="sales-section" style="display: none;">
+                        <h2>Ventes et commissions</h2>
+                        
+                        <div class="sales-summary">
+                            <div class="summary-card">
+                                <h3>Ventes totales</h3>
+                                <p class="amount" id="grossSales">0 FCFA</p>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Commission plateforme (10%)</h3>
+                                <p class="amount commission" id="platformCommission">0 FCFA</p>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Vos gains (90%)</h3>
+                                <p class="amount earnings" id="sellerEarnings">0 FCFA</p>
+                            </div>
+                        </div>
+                        
+                        <div class="sales-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Produit</th>
+                                        <th>Prix vente</th>
+                                        <th>Commission</th>
+                                        <th>Votre gain</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="salesTable">
+                                    <!-- Sales will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Profile Section -->
+                    <section class="dashboard-section-content" id="profile-section" style="display: none;">
+                        <h2>Profil de la boutique</h2>
+                        
+                        <form class="profile-form" id="profileForm">
+                            <div class="form-group">
+                                <label for="shopName">Nom de la boutique</label>
+                                <input type="text" id="shopName" name="shopName" placeholder="Ma Boutique TG">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="shopDescription">Description</label>
+                                <textarea id="shopDescription" name="shopDescription" placeholder="Décrivez votre boutique..." rows="3"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="shopEmail">Email</label>
+                                <input type="email" id="shopEmail" name="shopEmail" placeholder="contact@boutique.tg">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="shopPhone">Téléphone</label>
+                                <input type="tel" id="shopPhone" name="shopPhone" placeholder="+228 90 00 00 00">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                            </div>
+                        </form>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/dashboard-vendeur.js"></script>
+</body>
+</html>

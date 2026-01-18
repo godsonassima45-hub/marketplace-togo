@@ -1,0 +1,37 @@
+{
+  "name": "marketplace-togo",
+  "version": "1.0.0",
+  "description": "Marketplace togolaise avec paiement Mobile Money et cabine d'essayage virtuelle",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx serve public -l 3000",
+    "dev": "npx serve public -l 3000 -o",
+    "build": "echo 'No build step needed for static site'",
+    "deploy": "netlify deploy --prod --dir=public",
+    "test": "echo 'No tests specified' && exit 0"
+  },
+  "keywords": [
+    "marketplace",
+    "togo",
+    "e-commerce",
+    "mobile-money",
+    "firebase",
+    "togolais"
+  ],
+  "author": "MarketPlace TG Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/votre-username/marketplace-togo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/votre-username/marketplace-togo/issues"
+  },
+  "homepage": "https://votre-site.netlify.app",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

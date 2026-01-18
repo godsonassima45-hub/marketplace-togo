@@ -1,0 +1,86 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection rules
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && 
+        request.auth.uid == userId &&
+        request.resource.data.keys().hasAll(['email', 'firstName', 'lastName', 'userType']) &&
+        request.resource.data.userType in ['buyer', 'seller', 'admin'];
+    }
+    
+    // Products collection rules
+    match /products/{productId} {
+      // Anyone can read active products
+      allow read: if resource.data.isActive == true;
+      
+      // Only sellers can create products
+      allow create: if request.auth != null && 
+        request.auth.token.email_verified == true &&
+        request.resource.data.sellerId == request.auth.uid &&
+        request.resource.data.keys().hasAll(['name', 'price', 'sellerId', 'isActive']) &&
+        request.resource.data.price is number &&
+        request.resource.data.price > 0;
+      
+      // Only product owner can update their products
+      allow update: if request.auth != null && 
+        resource.data.sellerId == request.auth.uid &&
+        request.auth.token.email_verified == true;
+      
+      // Only product owner or admin can delete
+      allow delete: if request.auth != null && 
+        (resource.data.sellerId == request.auth.uid || 
+         request.auth.token.role == 'admin');
+    }
+    
+    // Orders collection rules
+    match /orders/{orderId} {
+      // Users can only read their own orders
+      allow read: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
+      
+      // Users can create their own orders
+      allow create: if request.auth != null && 
+        request.auth.uid == resource.data.userId &&
+        request.auth.token.email_verified == true &&
+        resource.data.keys().hasAll(['userId', 'items', 'totalAmount', 'status']) &&
+        resource.data.totalAmount is number &&
+        resource.data.totalAmount > 0;
+      
+      // Users can update their own orders (status changes)
+      allow update: if request.auth != null && 
+        resource.data.userId == request.auth.uid &&
+        request.auth.token.email_verified == true &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'paymentMethod', 'shippingAddress']);
+      
+      // Admins can read all orders
+      allow read: if request.auth != null && request.auth.token.role == 'admin';
+    }
+    
+    // Commissions collection rules
+    match /commissions/{commissionId} {
+      // Only admins can read all commissions
+      allow read: if request.auth != null && request.auth.token.role == 'admin';
+      
+      // Sellers can read their own commissions
+      allow read: if request.auth != null && 
+        resource.data.sellerId == request.auth.uid;
+      
+      // System can create commissions (trusted)
+      allow create: if request.auth != null && 
+        request.auth.token.role in ['admin', 'system'] &&
+        resource.data.keys().hasAll(['orderId', 'sellerId', 'platformAmount', 'sellerAmount']);
+      
+      // Admins can update commission status
+      allow update: if request.auth != null && 
+        request.auth.token.role == 'admin' &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'paidAt']);
+    }
+    
+    // Carts collection (for shopping cart persistence)
+    match /carts/{cartId} {
+      allow read, write, delete: if request.auth != null && request.auth.uid == cartId;
+    }
+  }
+}

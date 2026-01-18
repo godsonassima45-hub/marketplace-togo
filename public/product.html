@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produit - MarketPlace TG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><i class="fas fa-store"></i> MarketPlace TG</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="#products">Produits</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="btn-cart" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <div class="user-menu" id="userMenu">
+                        <button class="btn btn-outline">Mon compte</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-container">
+                <div class="product-images">
+                    <div class="main-image">
+                        <img id="mainProductImage" src="" alt="Product">
+                    </div>
+                    <div class="image-thumbnails" id="imageThumbnails">
+                        <!-- Thumbnails will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <div class="product-header">
+                        <h1 id="productTitle">Chargement...</h1>
+                        <div class="product-meta">
+                            <span class="seller-info">
+                                <i class="fas fa-store"></i>
+                                <span id="sellerName">Chargement...</span>
+                            </span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span id="productRating">4.5</span>
+                                <span>(23 avis)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-price">
+                        <span class="current-price" id="productPrice">0 FCFA</span>
+                        <span class="original-price" id="originalPrice" style="display: none;">0 FCFA</span>
+                    </div>
+                    
+                    <div class="product-description">
+                        <h3>Description</h3>
+                        <p id="productDescription">Chargement de la description...</p>
+                    </div>
+                    
+                    <div class="product-options">
+                        <div class="option-group">
+                            <label for="quantity">Quantité</label>
+                            <div class="quantity-selector">
+                                <button class="quantity-btn" id="decreaseQty">-</button>
+                                <input type="number" id="quantity" value="1" min="1" max="10">
+                                <button class="quantity-btn" id="increaseQty">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="size">Taille</label>
+                            <select id="size">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="btn btn-outline btn-large" id="addToCartBtn">
+                            <i class="fas fa-shopping-cart"></i>
+                            Ajouter au panier
+                        </button>
+                        <button class="btn btn-primary btn-large" id="buyNowBtn">
+                            <i class="fas fa-bolt"></i>
+                            Acheter maintenant
+                        </button>
+                    </div>
+                    
+                    <!-- Virtual Fitting Room -->
+                    <div class="fitting-room-section">
+                        <h3><i class="fas fa-tshirt"></i> Cabine d'essayage virtuelle</h3>
+                        <button class="btn btn-outline" id="openFittingRoom">
+                            <i class="fas fa-camera"></i>
+                            Essayer ce vêtement
+                        </button>
+                    </div>
+                    
+                    <div class="product-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Livraison partout au Togo</li>
+                            <li><i class="fas fa-check"></i> Paiement sécurisé Mobile Money</li>
+                            <li><i class="fas fa-check"></i> Retour sous 7 jours</li>
+                            <li><i class="fas fa-check"></i> Support client 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Virtual Fitting Room Modal -->
+    <div class="modal fitting-room-modal" id="fittingRoomModal">
+        <div class="modal-content fitting-room-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-tshirt"></i> Cabine d'essayage virtuelle</h3>
+                <button class="modal-close" id="closeFittingRoom">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="fitting-room-container">
+                    <div class="fitting-canvas-container">
+                        <canvas id="fittingCanvas" width="400" height="600"></canvas>
+                    </div>
+                    <div class="fitting-controls">
+                        <div class="control-group">
+                            <label>Votre photo</label>
+                            <input type="file" id="userPhoto" accept="image/*">
+                            <button class="btn btn-outline btn-small" id="uploadPhotoBtn">
+                                <i class="fas fa-upload"></i> Télécharger
+                            </button>
+                        </div>
+                        <div class="control-group">
+                            <label>Ajustements</label>
+                            <div class="adjustment-controls">
+                                <label>
+                                    Taille: <input type="range" id="sizeAdjustment" min="50" max="150" value="100">
+                                </label>
+                                <label>
+                                    Position: <input type="range" id="positionAdjustment" min="-50" max="50" value="0">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <button class="btn btn-primary" id="saveFittingBtn">
+                                <i class="fas fa-save"></i> Sauvegarder
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Votre panier</h3>
+                <button class="modal-close" id="closeCart">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-summary">
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">0 FCFA</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="clearCartBtn">Vider le panier</button>
+                <button class="btn btn-primary" id="checkoutBtn">Procéder au paiement</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/product.js"></script>
+    <script src="../js/fitting-room.js"></script>
+    <script src="../js/cart.js"></script>
+</body>
+</html>

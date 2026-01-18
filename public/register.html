@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - MarketPlace TG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><i class="fas fa-store"></i> MarketPlace TG</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="#products">Produits</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Register Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h2>Inscription</h2>
+                        <p>Créez votre compte MarketPlace TG</p>
+                    </div>
+                    
+                    <!-- Account Type Selection -->
+                    <div class="account-type-selector">
+                        <button class="account-type-btn active" data-type="buyer">
+                            <i class="fas fa-shopping-cart"></i>
+                            Acheteur
+                        </button>
+                        <button class="account-type-btn" data-type="seller">
+                            <i class="fas fa-store"></i>
+                            Vendeur
+                        </button>
+                    </div>
+                    
+                    <form class="auth-form" id="registerForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Prénom</label>
+                                <input type="text" id="firstName" name="firstName" required placeholder="Jean">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Nom</label>
+                                <input type="text" id="lastName" name="lastName" required placeholder="Koffi">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="votre@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Téléphone (Mobile Money)</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+228 90 00 00 00">
+                        </div>
+                        
+                        <div class="form-group seller-only" style="display: none;">
+                            <label for="shopName">Nom de la boutique</label>
+                            <input type="text" id="shopName" name="shopName" placeholder="Ma Boutique TG">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="password" required placeholder="••••••••">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmer le mot de passe</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="••••••••">
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" required>
+                                <span class="checkmark"></span>
+                                J'accepte les <a href="#">conditions d'utilisation</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">S'inscrire</button>
+                    </form>
+                    
+                    <div class="auth-footer">
+                        <p>Déjà un compte? <a href="login.html">Se connecter</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
